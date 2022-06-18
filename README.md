@@ -1,0 +1,1 @@
+# Techblog Leveraging MVC, Sequalize and MySQL
