@@ -27,6 +27,6 @@ const userData = [
     "password": "password12345"
   }
 ];
-
+//TODO: Hash the password on the way in
 const seedUsers = () => User.bulkCreate(userData);
 module .exports = seedUsers;
