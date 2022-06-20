@@ -1,77 +1,74 @@
 const router = require("express").Router();
 const { User } = require("../../models");
 
-// The `/api/categories` endpoint
+// The `/api/user` endpoint
+//we REALLY dont want this endpoint to be public!!
+// router.get("/", async (req, res) => {
+//   try {
+//     const userData = await User.findAll();
+//     res.status(200).json(userData);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
-router.get("/", async (req, res) => {
-  // find all categories
-  // be sure to include its associated Products
+// router.get("/:id", async (req, res) => {
+//   // find one user by its `id` value
+//   // be sure to include its associated Products
+//   try {
+//     const categoryData = await Category.findByPk(req.params.id, {
+//       include: [{ model: Product }],
+//     });
+//     res.status(200).json(categoryData);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
+
+
+router.post('/login', async (req, res) => {
   try {
-    const userData = await User.findAll();
-    res.status(200).json(userData);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+    // Find the user who matches the posted e-mail address
+    const userData = await User.findOne({ where: { email: req.body.email } });
 
-router.get("/:id", async (req, res) => {
-  // find one category by its `id` value
-  // be sure to include its associated Products
-  try {
-    const categoryData = await Category.findByPk(req.params.id, {
-      include: [{ model: Product }],
-    });
-    res.status(200).json(categoryData);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-
-router.post("/", async (req, res) => {
-  // create a new category
-  try {
-    const newCategory = await Category.create(req.body);
-    res.status(200).json(newCategory);
-
-  }
-  catch (err) {
-    res.status(400).json(err);
-  }
-});
-
-router.put("/:id", async (req, res) => {
-  // update a category by its `id` value
-  try {
-    const newCategory = await Category.update(req.body, {
-      where: {
-        id: req.params.id
-      }
-    });
-    res.status(200).json(newCategory);
-
-  }
-  catch (err) {
-    res.status(400).json(err);
-  }
-});
-
-router.delete("/:id", async (req, res) => {
-  // delete a category by its `id` value
-  try {
-    const categoryData = await Category.destroy({
-      where: {
-        id: req.params.id
-      }
-    });
-    if (!categoryData) {
-      res.status(404).json({ message: "Category not found" });
+    if (!userData) {
+      res
+        .status(400)
+        .json({ message: 'Incorrect email or password, please try again' });
       return;
     }
-    res.status(200).json(categoryData);
+
+    // Verify the posted password with the password store in the database
+    const validPassword = await userData.checkPassword(req.body.password);
+
+    if (!validPassword) {
+      res
+        .status(400)
+        .json({ message: 'Incorrect email or password, please try again' });
+      return;
+    }
+
+    // Create session variables based on the logged in user
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
+      
+      res.json({ user: userData, message: 'You are now logged in!' });
+    });
+
+  } catch (err) {
+    res.status(400).json(err);
   }
-  catch (err) {
-    res.status(500).json(err);
+});
+
+router.post('/logout', (req, res) => {
+  if (req.session.logged_in) {
+    // Remove the session variables
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  } else {
+    res.status(404).end();
   }
 });
 

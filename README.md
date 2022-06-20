@@ -6,3 +6,10 @@
  ### TODO:User Signup
  ### TODO:Password Hashing
  
+
+ ## API Endpoints
+
+ ```
+ http://localhost:3001/api/user/login/
+
+ '''
