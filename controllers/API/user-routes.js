@@ -24,7 +24,26 @@ const { User } = require("../../models");
 //     res.status(500).json(err);
 //   }
 // });
+// CREATE new user
+router.post('/', async (req, res) => {
+  try {
+    const userData = await User.create({
+      name: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+    });
 
+    // Set up sessions with a 'loggedIn' variable set to `true`
+    req.session.save(() => {
+      req.session.loggedIn = true;
+
+      res.status(200).json(userData);
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
 
 router.post('/login', async (req, res) => {
   try {
@@ -52,8 +71,9 @@ router.post('/login', async (req, res) => {
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
-      
-      res.json({ user: userData, message: 'You are now logged in!' });
+      //Comment:  Not returning the hash of the password
+      res.json({ message: 'You are now logged in!' });
+      //res.json({ user: userData, message: 'You are now logged in!' });
     });
 
   } catch (err) {
