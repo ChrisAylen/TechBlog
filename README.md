@@ -2,9 +2,7 @@
 
 ## To Do Items
 
- ### TODO:User Authentication
- ### TODO:User Signup
- ### TODO:Password Hashing
+
  
 
  ## API Endpoints
