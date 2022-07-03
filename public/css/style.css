@@ -65,7 +65,9 @@ nav a:hover {
   color: var(--secondary);
   background-color: var(--dark);
 }
-
+.comment-form {
+  padding: 10px;
+}
 .blog {
   flex: 4;
   background-color: #fff;
@@ -108,6 +110,7 @@ img {
 /* CARDS */
 .card {
   margin: 20px;
+  padding: 10px;
   flex: 0 1 300px;
   border: 7px double var(--dark);
   border-radius: 10px;

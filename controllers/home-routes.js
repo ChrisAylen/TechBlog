@@ -3,6 +3,22 @@ const { User, Blog, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 
+router.get('/blog/:id', withAuth, async (req, res) => {
+  try {
+    const blogData = await Blog.findByPk(req.params.id,{
+           include: [{ model: Comment, as: 'comments' }, { model: User, as: 'user', attributes:['name'] }],
+    });
+    const blog = blogData.get({ plain: true });
+    res.render('blog', {
+      blog,
+      loggedIn: req.session.loggedIn,
+
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 // Prevent non logged in users from viewing the homepage
 router.get('/',  async (req, res) => {
   try {
@@ -27,6 +43,8 @@ router.get('/',  async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+
 
 router.get('/login', (req, res) => {
   // If a session exists, redirect the request to the homepage

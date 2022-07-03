@@ -2,18 +2,11 @@
 {{#each blogs as |blog|}}
   <div class="leftcolumn">
     <div class="card">
-      <h2>{{blog.title}}</h2>
+      <h2><a href="/blog/{{blog.id}}">{{blog.title}}</a></h2>
       <h5>Posted by:{{blog.user.name}}</h5>
+      <h6>Created  on: {{blog.created_date}}</h6>
       <p>{{blog.body}}</p>
-      {{#each blog.comments as |comment| }}
-      <div class="row">
-        <div class="leftcolumn">
-            <div class="card">
-      <p>{{comment.comment}}</p>
-      </div>
-      </div>
-      </div>
-      {{/each}}
+      
     </div>
   </div>
 {{/each}}
