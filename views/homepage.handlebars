@@ -1,3 +1,25 @@
-{{#each galleries as |gallery|}}
-{{> gallery-details}}
+<div class="row">
+{{#each blogs as |blog|}}
+  <div class="leftcolumn">
+    <div class="card">
+      <h2>{{blog.title}}</h2>
+      <h5>Posted by:{{blog.user.name}}</h5>
+      <p>{{blog.body}}</p>
+      {{#each blog.comments as |comment| }}
+      <div class="row">
+        <div class="leftcolumn">
+            <div class="card">
+      <p>{{comment.comment}}</p>
+      </div>
+      </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
 {{/each}}
+</div>
+    
+
+
+
+
