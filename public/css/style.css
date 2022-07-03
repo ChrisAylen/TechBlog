@@ -68,6 +68,9 @@ nav a:hover {
 .comment-form {
   padding: 10px;
 }
+.blog-form {
+  padding: 10px;
+}
 .blog {
   flex: 4;
   background-color: #fff;

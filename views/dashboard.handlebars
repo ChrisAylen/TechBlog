@@ -1,0 +1,27 @@
+<div class="row">
+{{#each blogs as |blog|}}
+  <div class="leftcolumn">
+    <div class="card">
+      <h2><a href="/blog/{{blog.id}}">{{blog.title}}</a></h2>
+      <h5>Posted by:{{blog.user.name}}</h5>
+      <h6>Created  on: {{blog.created_date}}</h6>
+      <p>{{blog.body}}</p>
+      
+    </div>
+  </div>
+{{/each}}
+</div>
+<div class="row">
+    <form class="blog-form card" id="{{blog.id}}">
+      <div class="form-group">
+        <label for="blog-title">Add a blog title:</label>
+        <input class="form-input" id="blog-title" name="blog-title"></input>
+        <label for="blog-body">Add your blog text here:</label>
+        <textarea class="form-input" id="blog-body" name="blog-body"></textarea>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary add-button" id="{{blog.id}}">Add Blog</button>
+      </div>
+    </form>
+  </div>
+  <script src="/js/blog.js"></script>

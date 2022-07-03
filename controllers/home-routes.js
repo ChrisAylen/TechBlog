@@ -19,6 +19,26 @@ router.get('/blog/:id', withAuth, async (req, res) => {
   }
 });
 
+router.get('/dashboard/', withAuth, async (req, res) => {
+  try {
+    const blogData = await Blog.findAll({
+      where: {
+        user_id: req.session.user_id,
+      },
+      include: [{ model: Comment, as: 'comments' }, { model: User, as: 'user', attributes:['name'] }],
+    });
+    const blogs = blogData.map((blog) => blog.get({ plain: true }));
+    res.render('dashboard', {
+      blogs,
+      loggedIn: req.session.loggedIn,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+
+
 // Prevent non logged in users from viewing the homepage
 router.get('/',  async (req, res) => {
   try {

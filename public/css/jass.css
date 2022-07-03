@@ -1250,6 +1250,7 @@ form [type='radio'] {
 
 .row {
   display: 100%;
+  width:100%;
   flex-wrap: wrap;
   flex-direction: row;
   margin-left: -15px;
