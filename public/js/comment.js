@@ -19,5 +19,51 @@ const newComment = async (event) => {
     }
 }
 
-document.querySelector('.comment-form').addEventListener('submit', newComment);
+const blogAmend = async (event) => {
+    event.preventDefault();
+    console.log("hhh")
+    const blogid = event.target.id
+    const blogBody  = document.querySelector('#blog-body').value.trim();
+    const blogTitle = document.querySelector('#blog-title').innerHTML.trim();
+    console.log(blogTitle)
+    console.log(blogBody)
+    if (blogid){
+        const response = await fetch(`/api/blog/${blogid}`, {
+            method: 'PUT',
+            body: JSON.stringify({ title: blogTitle, body: blogBody }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.ok) {
+            document.location.replace(`/blog/${blogid}`);
+        } else {
+            alert('Something went wrong');
+        }
+    }
 
+
+}
+
+const blogDelete = async (event) => {
+    event.preventDefault();
+    const blogid = event.target.id
+    console.log(blogid)
+    if (blogid){
+        const response = await fetch(`/api/blog/${blogid}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.ok) {
+            document.location.replace(`/dashboard`);
+        } else {
+            alert('Something went wrong');
+        }
+    }
+}
+
+document.querySelector('.comment-form').addEventListener('submit', newComment);
+document.querySelector('.update-button').addEventListener('click', blogAmend);
+document.querySelector('.delete-button').addEventListener('click', blogDelete);
