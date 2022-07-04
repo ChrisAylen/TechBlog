@@ -1,6 +1,5 @@
 # Techblog Leveraging MVC, Sequalize and MySQL
 
-# Ecommerce Back End
 
 ![](https://img.shields.io/badge/license-MIT-blue.svg)
     
