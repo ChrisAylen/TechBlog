@@ -84,6 +84,10 @@ router.delete("/:id", withAuth, async (req, res) => {
             res.status(404).json({ message: "Blog not found" });
             return;
         }
+        if(blog.user_id !== req.session.user_id) {
+            res.status(401).json({ message: "Unauthorized" });
+            return;
+        }
         await blog.destroy();
         res.status(200).json({ message: "Blog deleted" });
     } catch (err) {

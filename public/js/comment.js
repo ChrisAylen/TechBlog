@@ -48,7 +48,6 @@ const blogAmend = async (event) => {
 const blogDelete = async (event) => {
     event.preventDefault();
     const blogid = event.target.id
-    console.log(blogid)
     if (blogid){
         const response = await fetch(`/api/blog/${blogid}`, {
             method: 'DELETE',
@@ -56,6 +55,11 @@ const blogDelete = async (event) => {
                 'Content-Type': 'application/json'
             }
         });
+
+        if(response==401){
+            alert("You can't delete that post, it is not yours!");
+        }
+
         if (response.ok) {
             document.location.replace(`/dashboard`);
         } else {

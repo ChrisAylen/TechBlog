@@ -12,6 +12,7 @@ router.get('/blog/:id', withAuth, async (req, res) => {
     res.render('blog', {
       blog,
       loggedIn: req.session.loggedIn,
+      userid: req.session.user_id,
 
     });
   } catch (err) {
